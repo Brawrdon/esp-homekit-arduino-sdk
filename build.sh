@@ -50,7 +50,6 @@ cp mu_srp/*.a $PROJECT_DIR/lib/
 printf "\nINFO: Copying header files for main libraries to project's include directory\n"
 cd $PROJECT_DIR/tmp/esp-idf3-homekit-sdk/components/homekit
 cp esp_hap_core/include/hap.h $PROJECT_DIR/include
-cp esp_hap_core/src/priv_includes/esp_hap_ip_services.h $PROJECT_DIR/include
 cp esp_hap_apple_profiles/include/*.h $PROJECT_DIR/include
 
 cleanup $1
