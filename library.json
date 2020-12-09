@@ -1,0 +1,36 @@
+{
+  "name": "ESP32 HomeKit Arduino SDK",
+  "version": "1.0.0",
+  "description": " Arduino wrapper for ESP-IDF HomeKit library.",
+  "keywords": "homekit",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/Brawrdon/esp-homekit-arduino-sdk.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Brawrdon",
+      "url": "https://brawrdon.com",
+      "maintainer": true
+    }
+  ],
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "espressif32",
+  "build": {
+      "flags": [
+          "-Iinclude",
+          "-Llib",
+          "-llibesp_hap_apple_profiles",
+          "-llibesp_hap_core",
+          "-llibesp_hap_extras",
+          "-llibesp_hap_platform",
+          "-llibhkdf-sha",
+          "-llibjson_generator",
+          "-llibjson_parser",
+          "-llibmu_srp"
+      ]
+  }
+}
