@@ -4,37 +4,43 @@ set -e # Stop on the first error
 PROJECT_DIR=$(pwd)
 
 cleanup() {
-    printf "\nINFO: Cleaning up tmp directory\n"
-    cd $PROJECT_DIR
-    rm -rf tmp
+    if [ "$1" == "cleanup" ]; then
+        printf "\nINFO: Cleaning up tmp directory\n"
+        cd $PROJECT_DIR
+        rm -rf tmp
+    fi
 }
 
-trap 'cleanup' ERR
-
-printf "INFO: Activating IDF virtual environment\n"
-. ${1:-$HOME/esp/esp-idf/export.sh}
+trap "cleanup $1" ERR
+trap "cleanup $1" SIGINT
 
 printf "INFO: Creating and entering tmp directory\n"
-mkdir tmp
+mkdir -p tmp
 cd tmp
 
-printf "\nINFO: Cloning and entering esp-homekit-sdk repo\n"
-git clone --recursive https://github.com/espressif/esp-homekit-sdk.git
-cd esp-homekit-sdk
+if [ ! -d "$PROJECT_DIR/tmp/esp-idf3-homekit-sdk" ] 
+then
+    printf "\nINFO: Cloning and entering esp-idf3-homekit-sdk repo\n"
+    git clone --recursive https://github.com/Brawrdon/esp-idf3-homekit-sdk.git
+else
+    printf "\nINFO: Entering esp-idf3-homekit-sdk repo\n"
+fi
+cd esp-idf3-homekit-sdk
 
-COMMIT="040b0f301223ebc6995597328e5a5cc9f9739a02"
-printf "\nINFO: Checking out to commit $COMMIT\n"
-git checkout $COMMIT
 
-printf "\nINFO: Copying sdkconfig to esp-homekit-sdk fan example\n"
+BRANCH="esp-idf-3.3.4"
+printf "\nINFO: Checking out to branch: $BRANCH\n"
+git checkout $BRANCH
+
+printf "\nINFO: Copying sdkconfig to esp-idf3-homekit-sdk fan example\n"
 cp $PROJECT_DIR/sdkconfig examples/fan/
 
 printf "\nBuilding fan example\n"
 cd examples/fan/
-idf.py build
+make
 
 printf "\nINFO: Copying compiled libraries to project's lib directory\n"
-cd build/esp-idf 
+cd build/ 
 cp esp_hap_*/*.a $PROJECT_DIR/lib/
 cp hkdf-sha/*.a $PROJECT_DIR/lib/
 cp json_generator/*.a $PROJECT_DIR/lib/
@@ -42,12 +48,14 @@ cp json_parser/*.a $PROJECT_DIR/lib/
 cp mu_srp/*.a $PROJECT_DIR/lib/
 
 printf "\nINFO: Copying header files for main libraries to project's include directory\n"
-cd $PROJECT_DIR/tmp/esp-homekit-sdk/components/homekit
+cd $PROJECT_DIR/tmp/esp-idf3-homekit-sdk/components/homekit
 cp esp_hap_core/include/hap.h $PROJECT_DIR/include
+cp esp_hap_core/src/priv_includes/esp_hap_ip_services.h $PROJECT_DIR/include
 cp esp_hap_apple_profiles/include/*.h $PROJECT_DIR/include
 
-cleanup
+cleanup $1
 
-printf "\nINFO: esp-homekit-sdk library built successfully!\n"
+printf "\nINFO: esp-idf3-homekit-sdk library built successfully!\n"
 
 exit 0
+
