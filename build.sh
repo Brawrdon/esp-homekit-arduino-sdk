@@ -4,7 +4,7 @@ set -e # Stop on the first error
 PROJECT_DIR=$(pwd)
 
 cleanup() {
-    if [ "$1" == "cleanup" ]; then
+    if [ "$1" != "no-cleanup" ]; then
         printf "\nINFO: Cleaning up tmp directory\n"
         cd $PROJECT_DIR
         rm -rf tmp
