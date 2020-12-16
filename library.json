@@ -1,6 +1,6 @@
 {
   "name": "ESP32 HomeKit SDK for Arduino",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": " Arduino wrapper for ESP-IDF HomeKit library.",
   "keywords": "homekit",
   "repository":
