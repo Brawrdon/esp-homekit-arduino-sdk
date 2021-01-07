@@ -1,3 +1,5 @@
 .tmp
 .DS_Store
 *.tar*
+lib/*
+!lib/esp_hap_config.h
