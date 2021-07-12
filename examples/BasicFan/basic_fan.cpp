@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <Wifi.h>
+#include <WiFi.h>
 #include <ESP32HomeKit.h>
 
 const char *ssid = "yourNetworkName";
