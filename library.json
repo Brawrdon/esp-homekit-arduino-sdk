@@ -1,6 +1,6 @@
 {
   "name": "ESP32 HomeKit SDK for Arduino",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "This library provides the official ESP-IDF HomeKit SDK for ESP32 devices running the Arduino framework, with a (soon to be implemented) Arduino style API wrapper.",
   "keywords": ["homekit", "hap", "homekit accessory protocol", "automation", "IoT", "esp32", "esp-idf"],
   "repository":
@@ -21,6 +21,18 @@
   "platforms": "espressif32",
   "examples": "examples/*/*.cpp",
   "build": {
-    "extraScript": "build.py"
+    "flags": [
+      "-Lesp-homekit-lib",
+      "-Iesp-homekit-lib/include",
+      "-lesp_hap_apple_profiles",
+      "-lesp_hap_core",
+      "-lesp_hap_extras",
+      "-lesp_hap_platform",
+      "-lesp_hap_platform",
+      "-lhkdf-sha",
+      "-ljson_generator",
+      "-ljson_parser",
+      "-lmu_srp"
+    ]
   }
 }
