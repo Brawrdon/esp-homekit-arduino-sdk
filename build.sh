@@ -2,6 +2,8 @@
 
 # ESP_IDF_VERSION="4.1"
 PROJECT_PATH=$(pwd);
+PRIV_INCLUDE_PATH="$(pwd)/esp-homekit-lib/priv_include";
+
 ESP_HOMEKIT_SDK_COMMIT_HASH="fac2032426d3cd29d8b6cc2663d0e7945d1d020d";
 
 
@@ -11,25 +13,38 @@ function cleanup {
     rm -rf build;
 }
 
+function clone_esp_homekit_sdk_repo () {
+    # Clone and enter the fan example directory
+    printf "\n** Cloning espressif/esp-homekit-sdk.git **\n"
+    git clone https://github.com/espressif/esp-homekit-sdk.git 1> /dev/null;
+    cd esp-homekit-sdk || { echo "Couldn't enter the esp-homekit-sdk repo directory; git clone probably failed."; exit 1; }
+    git checkout $ESP_HOMEKIT_SDK_COMMIT_HASH 1> /dev/null;
+    git submodule update --init --recursive 1> /dev/null;
+}
+
+function copy_header_files () {
+    # Copy source header files
+    printf "\n** Copying header files **\n"
+    cp "$(find . -name "hap.h")" "$PROJECT_PATH/esp-homekit-lib/priv_include" || { echo "Couldn't copy hap.h."; exit 1; };
+    cp "$(find . -name "hap_apple_chars.h")" "$PROJECT_PATH/esp-homekit-lib/priv_include" || { echo "Couldn't copy hap_apple_chars..h."; exit 1; };
+    cp "$(find . -name "hap_apple_servs.h")" "$PROJECT_PATH/esp-homekit-lib/priv_include" || { echo "Couldn't copy hap_apple_servs.h."; exit 1; };
+}
+
 trap cleanup EXIT;
 
 # Setup
 printf "** Creating temporary build folder **\n"
-mkdir build;
-cd build || { echo "Couldn't enter the build directory."; exit 1; }
+mkdir -p $PRIV_INCLUDE_PATH
+mkdir $BUILD_DIRECTORY_NAME;
+cd $BUILD_DIRECTORY_NAME || { echo "Couldn't enter the build $TEMP_DIRECTORY_NAME directory."; exit 1; }
 
-# Clone and enter the fan example directory
-printf "\n** Cloning espressif/esp-homekit-sdk.git **\n"
-git clone https://github.com/espressif/esp-homekit-sdk.git 1> /dev/null;
-cd esp-homekit-sdk || { echo "Couldn't enter the esp-homekit-sdk repo directory; git clone probably failed."; exit 1; }
-git checkout $ESP_HOMEKIT_SDK_COMMIT_HASH 1> /dev/null;
-git submodule update --init --recursive 1> /dev/null;
+clone_esp_homekit_sdk_repo;
 
-# Copy source header files
-printf "\n** Copying header files **\n"
-cp "$(find . -name "hap.h")" "$PROJECT_PATH/esp-homekit-lib/include" || { echo "Couldn't copy hap.h."; exit 1; };
-cp "$(find . -name "hap_apple_chars.h")" "$PROJECT_PATH/esp-homekit-lib/include" || { echo "Couldn't copy hap_apple_chars..h."; exit 1; };
-cp "$(find . -name "hap_apple_servs.h")" "$PROJECT_PATH/esp-homekit-lib/include" || { echo "Couldn't copy hap_apple_servs.h."; exit 1; };
+copy_header_files;
+
+if [[ "$1" == "pio" ]]; then
+   exit 0
+fi
 
 # Setup IDF environment and build the example
 printf "\n** Building esp-homekit-sdk fan example to extract libaries **\n"

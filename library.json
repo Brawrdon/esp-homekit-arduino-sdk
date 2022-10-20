@@ -20,6 +20,7 @@
   "frameworks": "arduino",
   "platforms": "espressif32",
   "examples": "examples/*/*.cpp",
+  "extraScript": "pre:pio-build.py",
   "build": {
     "flags": [
       "-Lesp-homekit-lib",

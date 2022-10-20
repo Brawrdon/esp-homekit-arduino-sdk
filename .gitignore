@@ -4,3 +4,4 @@
 lib/*
 .pio/
 .vscode
+esp-homekit-lib/priv_include
