@@ -17,13 +17,13 @@ HAPAccessory::HAPAccessory(String deviceName) {
     _deviceName = deviceName;
 }
 
-int HAPAccessory::InitialiseHAP(String model, String manufacturer, String serial_num, String fw_rev, String pv, IdentityRoutine identityRoutine, Cid cid) {
+int HAPAccessory::InitialiseHAP(String model, String manufacturer, String serial_num, String fw_rev, String pv, IdentityHandler identityHandler, AccessoryType cid) {
     _model = model;
     _manufacturer = manufacturer;
     _serial_num = serial_num;
     _fw_rev = fw_rev;
     _pv = pv;
-    _identityRoutine = identityRoutine;
+    _identityHandler = identityHandler;
     _cid = cid;
         
 
@@ -37,7 +37,9 @@ int HAPAccessory::InitialiseHAP(String model, String manufacturer, String serial
     return HAP_SUCCESS;
 }
 
+
 hap_acc_cfg_t HAPAccessory::CreateAccessoryConfig() {
+
     hap_acc_cfg_t cfg = {
         .name = ConvertStringToCharArray(_deviceName),
         .model = ConvertStringToCharArray(_model),
@@ -46,8 +48,8 @@ hap_acc_cfg_t HAPAccessory::CreateAccessoryConfig() {
         .fw_rev = ConvertStringToCharArray(_fw_rev),
         .hw_rev = NULL,
         .pv = ConvertStringToCharArray(_pv),
-        .cid = _cid,
-        .identify_routine = _identityRoutine
+        .cid = (hap_cid_t) _cid,
+        .identify_routine = _identityHandler
     };
 }
 
