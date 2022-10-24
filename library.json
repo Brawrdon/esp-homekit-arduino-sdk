@@ -24,7 +24,7 @@
   "build": {
     "flags": [
       "-Lesp-homekit-lib",
-      "-Iesp-homekit-lib/include",
+      "-Iesp-homekit-lib/priv_include",
       "-lesp_hap_apple_profiles",
       "-lesp_hap_core",
       "-lesp_hap_extras",

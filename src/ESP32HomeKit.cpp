@@ -3,9 +3,6 @@
 
 #include <Arduino.h>
 #include <ESP32HomeKit.h>
-#include "../esp-homekit-lib/priv_include/hap.h"
-#include "../esp-homekit-lib/priv_include/hap_apple_servs.h"
-#include "../esp-homekit-lib/priv_include/hap_apple_chars.h"
 
 char* ConvertStringToCharArray(String arduinoString) {
     int str_len = arduinoString.length() + 1; 

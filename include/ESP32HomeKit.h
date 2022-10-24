@@ -1,6 +1,6 @@
-#include "../esp-homekit-lib/priv_include/hap.h"
-#include "../esp-homekit-lib/priv_include/hap_apple_servs.h"
-#include "../esp-homekit-lib/priv_include/hap_apple_chars.h"
+#include "hap.h"
+#include "hap_apple_servs.h"
+#include "hap_apple_chars.h"
 
 #define HAP_SERVICE_ACCESSORY_INFORMATION         "3E"
 #define HAP_SERVICE_PROTOCOL_INFORMATION          "A2"
