@@ -1,2 +1,2 @@
 import subprocess
-subprocess.run(["./build.sh", "pio"])
+subprocess.run(["./build.sh"])

@@ -1,7 +1,7 @@
 .tmp
 .DS_Store
 *.tar*
-lib/*
+build/
 .pio/
 .vscode
-esp-homekit-lib/priv_include
+src/esp-homekit-sdk

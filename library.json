@@ -23,17 +23,7 @@
   "extraScript": "pre:pio-build.py",
   "build": {
     "flags": [
-      "-Lesp-homekit-lib",
-      "-Iesp-homekit-lib/priv_include",
-      "-lesp_hap_apple_profiles",
-      "-lesp_hap_core",
-      "-lesp_hap_extras",
-      "-lesp_hap_platform",
-      "-lesp_hap_platform",
-      "-lhkdf-sha",
-      "-ljson_generator",
-      "-ljson_parser",
-      "-lmu_srp"
+      "-Isrc/esp-homekit-sdk"
     ]
   }
 }
