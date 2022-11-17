@@ -31,9 +31,13 @@ printf "\n** Copying esp-homekit-sdk source files **\n"
 cd "$PROJECT_PATH" || { echo "Couldn't enter the project folder."; exit 1; }
 mkdir -p "src/esp-homekit-sdk" || { echo "Couldn't create the esp-homekit-sdk folder in the project's source directory."; exit 1; }
 cd "$PROJECT_PATH/$BUILD_DIRECTORY_NAME/esp-homekit-sdk/components/homekit" || { echo "Couldn't enter the esp-homekit-sdk folder."; exit 1; }
+# Delete conflicting files
 find . -name "jsondump.c" -exec rm {} \;
 find . -name "simple.c" -exec rm {} \;
+find . -name "*json_generator*" -exec rm {} \;
+find . -name "*json_parser*" -exec rm {} \;
 find . -name "*test*" -exec rm {} \;
+
 find . -type f -name "*.c" -exec cp {} "$PROJECT_PATH/src/esp-homekit-sdk/" \;
 find . -type f -name "*.h" -exec cp {} "$PROJECT_PATH/src/esp-homekit-sdk/" \;
 

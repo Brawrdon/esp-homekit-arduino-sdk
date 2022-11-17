@@ -21,7 +21,7 @@
   "platforms": "espressif32",
   "examples": "examples/*/*.cpp",
   "build": {
-    "extraScript": "pre:pio-build.py",
+    "extraScript": "pio-build.py",
     "flags": [
       "-Isrc/esp-homekit-sdk"
     ]
