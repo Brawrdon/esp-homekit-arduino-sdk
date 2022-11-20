@@ -14,6 +14,13 @@ function cleanup {
 
 trap cleanup EXIT;
 
+# Skip if esp-homekit-sdk source files already exist
+if [[ -d "src/esp-homekit-sdk" ]]
+then
+    printf "** esp-homekit-sdk source files exist, skipping clone. **\n";
+    exit 0;
+fi
+
 # Setup
 printf "** Creating temporary build folder **\n"
 mkdir $BUILD_DIRECTORY_NAME;
@@ -21,10 +28,10 @@ cd $BUILD_DIRECTORY_NAME || { echo "Couldn't enter the build $BUILD_DIRECTORY_NA
 
 # Clone the esp-homekit-sdk git project
 printf "\n** Cloning espressif/esp-homekit-sdk.git **\n"
-git clone https://github.com/espressif/esp-homekit-sdk.git 1> /dev/null;
+git clone --quiet https://github.com/espressif/esp-homekit-sdk.git &> /dev/null;
 cd esp-homekit-sdk || { echo "Couldn't enter the esp-homekit-sdk repo folder; git clone probably failed."; exit 1; }
-git checkout $ESP_HOMEKIT_SDK_COMMIT_HASH 1> /dev/null;
-git submodule update --init --recursive 1> /dev/null;
+git checkout --quiet $ESP_HOMEKIT_SDK_COMMIT_HASH &> /dev/null;
+git submodule update --quiet --init --recursive &> /dev/null;
 
 # Copy esp-homekit-sdk source files
 printf "\n** Copying esp-homekit-sdk source files **\n"
@@ -34,9 +41,9 @@ cd "$PROJECT_PATH/$BUILD_DIRECTORY_NAME/esp-homekit-sdk/components/homekit" || {
 # Delete conflicting files
 find . -name "jsondump.c" -exec rm {} \;
 find . -name "simple.c" -exec rm {} \;
-find . -name "*json_generator*" -exec rm {} \;
-find . -name "*json_parser*" -exec rm {} \;
-find . -name "*test*" -exec rm {} \;
+find . -name "*json_generator.*" -exec rm {} \;
+find . -name "*json_parser.*" -exec rm {} \;
+find . -name "*test*.*" -exec rm {} \;
 
 find . -type f -name "*.c" -exec cp {} "$PROJECT_PATH/src/esp-homekit-sdk/" \;
 find . -type f -name "*.h" -exec cp {} "$PROJECT_PATH/src/esp-homekit-sdk/" \;
