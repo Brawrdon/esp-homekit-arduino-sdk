@@ -5,15 +5,15 @@
 const char *ssid = "ssid";
 const char *password = "password";
 
+/*
+	This example provides a basic connection to HomeKit.
+	You can't read/write values at the moment but it's coming I promise.
+*/
 
-int Indentification(HAPAccessoryHandle* accessoryHandle) {
-	Serial.println("Establishing connection to WiFi..");
-	return 1;
-}
 
 void setup()
 {
-	Serial.begin(115200);
+	Serial.begin(9600);
 
 	WiFi.begin(ssid, password);
 
@@ -26,12 +26,14 @@ void setup()
 	Serial.println("Connected to network.");
 
 	HAPAccessory hapAccessory("ESP32 Fan");
-	hapAccessory.Initialise("EspFan01", "Espressif", "001122334455", "0.0.1", "1.0.0", Indentification, HAP_ACCESSORY_SENSOR);
+	hapAccessory.Setup("EspFan01", "Espressif", "001122334455", "0.0.1", "1.0.0", HAP_ACCESSORY_SENSOR);
 
-	HAPTemperatureSensor hapTemperatureSensor("Temperature", 0.0);
+	HAPTemperatureSensor hapTemperatureSensor("Temperature", 10.0);
 	hapAccessory.AddService(hapTemperatureSensor.Service);
-	
-	hapAccessory.Register("111-22-333");
+
+	hapAccessory.Register();
+	HAPCore hapCore("111-22-333");
+	hapCore.Start();
 }
 
 void loop()

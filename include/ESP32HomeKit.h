@@ -73,30 +73,35 @@ typedef enum {
 
 typedef int (*IdentityHandler) (HAPAccessoryHandle* accessoryHandle);
 
+class HAPCore {
+    public:
+        HAPCore(String setupCode);
+        int Start();
+};
+
 class HAPAccessory {
-   public:
-    HAPAccessory (String deviceName);
-    HAPAccessoryHandle* Accessory;
+    public:
+        HAPAccessory(String deviceName);
+        HAPAccessoryHandle* Accessory;
 
-    int Initialise(String model, String manufacturer, String serial_num, String fw_rev, String pv, IdentityHandler identityHandler, HAPAccessoryType cid);
-    int AddService(HAPServiceHandle* service);
-    int Register(String setupCode);
-   private:
-    String _deviceName;
-    String _model;
-    String _manufacturer;
-    String _serial_num;
-    String _fw_rev;
-    String _pv;
-    IdentityHandler _identityHandler;
-    HAPAccessoryType _cid;
+        int Setup(String model, String manufacturer, String serial_num, String fw_rev, String pv, HAPAccessoryType cid);
+        int AddService(HAPServiceHandle* service);
+        int Register();
+    private:
+        String _deviceName;
+        String _model;
+        String _manufacturer;
+        String _serial_num;
+        String _fw_rev;
+        String _pv;
+        HAPAccessoryType _cid;
 
-    hap_acc_cfg_t CreateAccessoryConfig();
+        hap_acc_cfg_t CreateAccessoryConfig();
 };
 
 // Services
 class HAPTemperatureSensor {
-   public:
-    HAPTemperatureSensor (String serviceName, float currentTemperature);
-    HAPServiceHandle* Service; 
+    public:
+        HAPTemperatureSensor (String serviceName, double currentTemperature);
+        HAPServiceHandle* Service; 
 };
