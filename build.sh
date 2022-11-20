@@ -8,11 +8,17 @@ ESP_HOMEKIT_SDK_COMMIT_HASH="fac2032426d3cd29d8b6cc2663d0e7945d1d020d";
 
 function cleanup {
     cd "$PROJECT_PATH";
-    printf "\n** Deleting temporary build files **";
-    rm -rf "$BUILD_DIRECTORY_NAME";
+    if [[ -d "build" ]]
+    then
+        printf "\n** Deleting temporary build files **"\n;
+        rm -rf "$BUILD_DIRECTORY_NAME";
+    fi
+
 }
 
 trap cleanup EXIT;
+
+printf "\n** ESP32 HomeKit Arduino SDK Logs **\n"
 
 # Skip if esp-homekit-sdk source files already exist
 if [[ -d "src/esp-homekit-sdk" ]]

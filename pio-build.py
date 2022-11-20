@@ -1,3 +1,3 @@
 Import("env")
 import subprocess
-subprocess.run(["./build.sh"])
+env.Execute("./build.sh") 
