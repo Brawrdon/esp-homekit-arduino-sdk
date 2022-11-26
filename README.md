@@ -69,8 +69,8 @@ If you want to make edits to the library, run the `build.sh` script. It will clo
 ## To Do
 
 - [x] Add Arduino API wrappers to make it easier to use.
-- [] Add other sensors.
-- [] Better documentation.
+- [ ] Add other sensors.
+- [ ] Better documentation.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
