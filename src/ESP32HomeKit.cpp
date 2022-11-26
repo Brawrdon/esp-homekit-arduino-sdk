@@ -16,10 +16,10 @@ int Indentification(HAPAccessoryHandle* accessoryHandle) {
 }
 
 // HAP Core
-HAPCore::HAPCore(String setupCode) {
+HAPCore::HAPCore(String setupCode, String setupId) {
 	hap_init(HAP_TRANSPORT_WIFI);
-	hap_set_setup_code("111-22-333");
-	hap_set_setup_id("ES32");
+	hap_set_setup_code(ConvertStringToCharArray(setupCode));
+	hap_set_setup_id(ConvertStringToCharArray(setupId));
 }
 
 int HAPCore::Start() {
