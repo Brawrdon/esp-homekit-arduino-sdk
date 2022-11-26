@@ -81,10 +81,8 @@ class HAPCore {
          * This object should be created after all Accessories and Sensors have been set up.
          * @param[in]  setupCode  The setup code used when pairing the accessory. It must consist of only numbers and be in the following format xxx-xx-xxx.
          * @param[in]  setupId  Unique ID pairing ID. Must be 4 characters long
-         * @return return_name return description
          */
         HAPCore(String setupCode, String setupId);
-
         int Start();
 };
 

@@ -1,6 +1,8 @@
 # ESP32 HomeKit Accessory Protocol SDK for Arduino
 
-This library provides the official [ESP-IDF HomeKit SDK (#040b0f3)](https://github.com/espressif/esp-homekit-sdk/tree/040b0f301223ebc6995597328e5a5cc9f9739a02) for ESP32 devices running the Arduino framework.
+This library provides the official [ESP-IDF HomeKit SDK (#fac2032)](https://github.com/espressif/esp-homekit-sdk/tree/fac2032426d3cd29d8b6cc2663d0e7945d1d020d) for ESP32 devices running the Arduino framework.
+
+Version 2.0.0 is in active development and will be available soon!
 
 **Note:** This wrapper uses a version of the SDK which can't be used in commercial products due to it not being MFi certified, feel free to use it in your hobby projects though!
 
@@ -14,18 +16,61 @@ pio lib install 'ESP32 HomeKit SDK for Arduino'
 The packages uploaded to PlatformIO's repository and used by the Arduino IDE will contain the complete library, as the build script will be run before packaging. You can use the Arduino IDE to install the library by downloading the prebuilt ZIP file in the Releases section. 
 
 ## Usage
+At the moment, only a temperature sensor with a default value can be created. I'm in the process of adding the ability to read / write to a sensor, as well as adding all other available sensors.
 
-An example of implementing a basic fan accessory can be found in the examples folder. It's based off of the fan example from the origin ESP-IDF SDK.
+```cpp
+#include <Arduino.h>
+#include <WiFi.h>
+#include <ESP32HomeKit.h>
 
-As the Arduino style API wrappers haven't been implemented yet, if you have any questions or issues it's best that you visit the ESP-IDF HomeKit SDK repository for additional help.
+const char *ssid = "ssid";
+const char *password = "password";
+
+/*
+	This example provides a basic connection to HomeKit.
+	You can't read/write values at the moment but it's coming I promise.
+*/
+
+void setup()
+{
+	Serial.begin(9600);
+
+	WiFi.begin(ssid, password);
+
+	while (WiFi.status() != WL_CONNECTED)
+	{
+		delay(1000);
+		Serial.println("Establishing connection to WiFi..");
+	}
+
+	Serial.println("Connected to network.");
+
+	HAPAccessory hapAccessory("ESP32 Fan");
+	hapAccessory.Setup("EspFan01", "Espressif", "001122334455", "0.0.1", "1.0.0", HAP_ACCESSORY_SENSOR);
+
+	HAPTemperatureSensor hapTemperatureSensor("Temperature", 10.0);
+	hapAccessory.AddService(hapTemperatureSensor.Service);
+
+	hapAccessory.Register();
+	HAPCore hapCore("111-22-333", "ES32");
+	hapCore.Start();
+}
+
+void loop()
+{
+	/* Main loop code */
+}
+```
 
 ## Building From Source
 
-Building outside of PlatformIO requires Python 3. Running the `build.py` script will clone the ESP-IDF HomeKit SDK repository, place the required files in the correct directory structure and modify them to work with Arduino's build chain. The modified files aren't commited as I don't think I need to host copies of the SDK's source in this repository, or in a fork, since the changes for the port are minimal.
+If you want to make edits to the library, run the `build.sh` script. It will clone the ESP-IDF HomeKit SDK repository, copy the required source files and modify them to work with Arduino's build chain. The modified files aren't commited as I don't think I need to host copies of the SDK's source in this repository, or in a fork, since the changes for the port are minimal.
 
 ## To Do
 
-- [ ] Add Arduino API wrappers to make it easier to use.
+- [x] Add Arduino API wrappers to make it easier to use.
+- [] Add other sensors.
+- [] Better documentation.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

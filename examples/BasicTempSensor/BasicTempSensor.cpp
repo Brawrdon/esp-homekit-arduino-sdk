@@ -10,7 +10,6 @@ const char *password = "password";
 	You can't read/write values at the moment but it's coming I promise.
 */
 
-
 void setup()
 {
 	Serial.begin(9600);
@@ -32,7 +31,7 @@ void setup()
 	hapAccessory.AddService(hapTemperatureSensor.Service);
 
 	hapAccessory.Register();
-	HAPCore hapCore("111-22-333");
+	HAPCore hapCore("111-22-333", "ES32");
 	hapCore.Start();
 }
 
