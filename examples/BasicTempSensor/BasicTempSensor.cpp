@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <ESP32HomeKit.h>
+#include <HAPAccessories.h>
+#include <HAPServices.h>
 
 const char *ssid = "ssid";
 const char *password = "password";
@@ -24,13 +26,13 @@ void setup()
 
 	Serial.println("Connected to network.");
 
-	HAPAccessory hapAccessory("ESP32 Fan");
-	hapAccessory.Setup("EspFan01", "Espressif", "001122334455", "0.0.1", "1.0.0", HAP_ACCESSORY_SENSOR);
+	HAPSensorAccessory hapSensorAccessory("ESP32 Fan");
 
 	HAPTemperatureSensor hapTemperatureSensor("Temperature", 10.0);
-	hapAccessory.AddService(hapTemperatureSensor.Service);
 
-	hapAccessory.Register();
+	hapSensorAccessory.AddService(hapTemperatureSensor);
+	hapSensorAccessory.Register();
+	
 	HAPCore hapCore("111-22-333", "ES32");
 	hapCore.Start();
 }
