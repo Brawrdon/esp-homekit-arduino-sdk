@@ -42,18 +42,18 @@ hap_acc_cfg_t HAPAccessory::CreateAccessoryConfig(hap_cid_t cid) {
 
 
 int HAPAccessory::AddService(HAPService service) {
-    Serial.println("(ESP_HOMEKIT_ARDUINO_SDK) -> " + _deviceName + ": Adding service " + service.Name);
+    HAPLog(_deviceName + ": Adding service " + service.Name);
     return hap_acc_add_serv(Accessory, service.Handler);
 }
 
 int HAPAccessory::Register() {
-    Serial.println("(ESP_HOMEKIT_ARDUINO_SDK) -> " + _deviceName + ": Registering accessory");
-	 hap_add_accessory(Accessory);
-     return HAP_SUCCESS;
+    HAPLog(_deviceName + ": Registering accessory");
+	hap_add_accessory(Accessory);
+    return HAP_SUCCESS;
 }
 
 
-HAPSensorAccessory::HAPSensorAccessory(String deviceName, String model, String manufacturer, String serial_num, String fw_rev, String pv) : HAPAccessory(deviceName, model, manufacturer, serial_num, fw_rev, pv, HAP_CID_SENSOR) {};
+HAPSensorAccessory::HAPSensorAccessory(String deviceName, String model, String manufacturer, String serial_num, String fw_rev, String pv): HAPAccessory(deviceName, model, manufacturer, serial_num, fw_rev, pv, HAP_CID_SENSOR) {};
 
 hap_cid_t HAPSensorAccessory::GetCid() {
     return HAP_CID_SENSOR;

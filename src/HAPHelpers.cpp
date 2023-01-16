@@ -7,3 +7,7 @@ char* ConvertStringToCharArray(String arduinoString) {
     return char_array;
 }
 
+void HAPLog(String message) {
+     Serial.println("(ESP_HOMEKIT_ARDUINO_SDK) -> " + message);
+}
+
