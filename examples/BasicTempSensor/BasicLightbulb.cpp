@@ -9,8 +9,11 @@ const char *password = "password";
 
 /*
 	This example provides a basic connection to HomeKit.
-	You can't read/write values at the moment but it's coming I promise.
 */
+
+void Callback(HAPWriteData data) {
+	Serial.println("Switch flipped");
+}
 
 void setup()
 {
@@ -26,11 +29,11 @@ void setup()
 
 	Serial.println("Connected to network.");
 
-	HAPSensorAccessory hapSensorAccessory("ESP32 Fan");
+	HAPSensorAccessory hapSensorAccessory("ESP32 Lightbulb");
 
-	HAPTemperatureSensor hapTemperatureSensor("Temperature", 10.0);
+	HAPLightbulb HAPLightbulb("Lightbulb", true, Callback);
 
-	hapSensorAccessory.AddService(hapTemperatureSensor);
+	hapSensorAccessory.AddService(HAPLightbulb);
 	hapSensorAccessory.Register();
 	
 	HAPCore hapCore("111-22-333", "ES32");

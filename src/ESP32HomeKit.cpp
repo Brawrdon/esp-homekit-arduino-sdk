@@ -1,5 +1,3 @@
-
-
 #include <Arduino.h>
 #include <ESP32HomeKit.h>
 #include <HAPHelpers.h>

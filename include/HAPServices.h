@@ -8,10 +8,10 @@ typedef hap_char_t* HAPCharacteristicHandler;
 typedef hap_val_t HAPWriteData;
 typedef void (*HAPWriteCallback)(HAPWriteData data);
 
-struct HAPCallbackToService {
+struct HAPServiceAndCallback {
+    HAPServiceHandle ServiceHandler;
     HAPWriteCallback WriteCallback;
     HAPCharacteristicHandler CharactersticHandler;
-    HAPServiceHandle ServiceHandler;
 };
 
 class HAPService {
@@ -23,13 +23,27 @@ class HAPService {
 
 class HAPTemperatureSensor: public HAPService {
     public:
-        HAPTemperatureSensor(String serviceName, double initialTemperature, HAPWriteCallback temperatureWriteCallback);
+        HAPTemperatureSensor(String serviceName, double initialTemperature);
 };
 
 class HAPLightbulb: public HAPService {
     public:
         HAPLightbulb(String serviceName, bool initialState, HAPWriteCallback onOffStateWriteCallback);
-        void AddBrightness(int initalValue, HAPWriteCallback brightWriteCallback);
+        void AddBrightnessCharacteristic(int initalValue, HAPWriteCallback brightWriteCallback);
 };
 
+class HAPLightSensor: public HAPService {
+    public:
+        HAPLightSensor(String serviceName, float initialLightLevel);
+};
+
+class HAPHumiditySensor: public HAPService {
+    public:
+        HAPHumiditySensor(String serviceName, float initialHumidity);
+};
+
+class HAPMoistureSensor: public HAPService {
+    public:
+        HAPMoistureSensor(String serviceName, float initialMoistureLevel);
+};
 #endif
