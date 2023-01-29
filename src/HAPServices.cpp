@@ -12,7 +12,6 @@ static int callbackToServiceMapsCount = 0;
 
 HAPService::HAPService(String serviceName) {
     Name = serviceName;
-    hap_serv_add_char(Handler, hap_char_name_create(ConvertStringToCharArray(Name)));
 }
 
 static int OnCharacteristicWrite(hap_write_data_t write_data[], int count,void *serv_priv, void *write_priv)
@@ -46,10 +45,13 @@ static int OnCharacteristicWrite(hap_write_data_t write_data[], int count,void *
 
 HAPTemperatureSensor::HAPTemperatureSensor(String serviceName, double initialTemperature): HAPService(serviceName){
     Handler = hap_serv_temperature_sensor_create(initialTemperature);
+    hap_serv_add_char(Handler, hap_char_name_create(ConvertStringToCharArray(Name)));
 }
 
 HAPLightbulb::HAPLightbulb(String serviceName, bool initialState, HAPWriteCallback onOffStateWriteCallback): HAPService(serviceName){
     Handler = hap_serv_lightbulb_create(initialState);
+    hap_serv_add_char(Handler, hap_char_name_create(ConvertStringToCharArray(Name)));
+
     HAPCharacteristicHandler onOffStateCharacteristicHandler = hap_serv_get_char_by_uuid(Handler, HAP_CHAR_UUID_ON);
     callbackToServiceMaps[callbackToServiceMapsCount] = {
         .WriteCallback = onOffStateWriteCallback,
@@ -77,9 +79,5 @@ void HAPLightbulb::AddBrightness(int initialValue, HAPWriteCallback brightnessWr
 /* HAPLightSensor */
 HAPLightSensor::HAPLightSensor(String serviceName, float initialLightLevel): HAPService(serviceName) {
     Handler = hap_serv_light_sensor_create(initialLightLevel);
-}
-
-/* HAPHumiditySensor */
-HAPHumiditySensor::HAPHumiditySensor(String serviceName, float initialHumidity): HAPService(serviceName) {
-    Handler = hap_serv_humidity_sensor_create(initialHumidity);
+    hap_serv_add_char(Handler, hap_char_name_create(ConvertStringToCharArray(Name)));
 }
