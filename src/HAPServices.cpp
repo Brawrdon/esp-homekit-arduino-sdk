@@ -51,6 +51,7 @@ HAPTemperatureSensor::HAPTemperatureSensor(String serviceName, double initialTem
 HAPLightbulb::HAPLightbulb(String serviceName, bool initialState, HAPWriteCallback onOffStateWriteCallback): HAPService(serviceName){
     Handler = hap_serv_lightbulb_create(initialState);
     hap_serv_add_char(Handler, hap_char_name_create(ConvertStringToCharArray(Name)));
+    hap_serv_set_write_cb(Handler, OnCharacteristicWrite);   
 
     HAPCharacteristicHandler onOffStateCharacteristicHandler = hap_serv_get_char_by_uuid(Handler, HAP_CHAR_UUID_ON);
     callbackToServiceMaps[callbackToServiceMapsCount] = {
@@ -61,7 +62,6 @@ HAPLightbulb::HAPLightbulb(String serviceName, bool initialState, HAPWriteCallba
 
     callbackToServiceMapsCount++;
 
-    hap_serv_set_write_cb(Handler, OnCharacteristicWrite);   
 }
 
 void HAPLightbulb::AddBrightness(int initialValue, HAPWriteCallback brightnessWriteCallback) {
@@ -80,4 +80,35 @@ void HAPLightbulb::AddBrightness(int initialValue, HAPWriteCallback brightnessWr
 HAPLightSensor::HAPLightSensor(String serviceName, float initialLightLevel): HAPService(serviceName) {
     Handler = hap_serv_light_sensor_create(initialLightLevel);
     hap_serv_add_char(Handler, hap_char_name_create(ConvertStringToCharArray(Name)));
+}
+
+// Custom Services
+HAPCustomService::HAPCustomService(String serviceName, String uuid): HAPService(serviceName) {
+    Handler = hap_serv_create(ConvertStringToCharArray(uuid));
+    if (!Handler) {
+        HAPLog("Failed to create the custom service: " + serviceName);
+        return;
+    }
+    hap_serv_add_char(Handler, hap_char_name_create(ConvertStringToCharArray(Name)));
+    hap_serv_set_write_cb(Handler, OnCharacteristicWrite);   
+}
+
+HAPCharacteristicHandler HAPCustomService::AddFloatCharacteristic(String uuid, float initialValue, bool writtable) {
+    uint16_t permission = HAP_CHAR_PERM_PR | HAP_CHAR_PERM_EV;
+    if (writtable) {
+        permission = HAP_CHAR_PERM_PR | HAP_CHAR_PERM_PW | HAP_CHAR_PERM_EV;
+    }
+        
+    hap_char_t* characteristicHandler = hap_char_float_create(ConvertStringToCharArray(uuid), permission, initialValue);
+    hap_serv_add_char(Handler, characteristicHandler);
+    return characteristicHandler;
+}
+
+void HAPCustomService::AddWriteCallbackForCharacteristic(HAPCharacteristicHandler characteristicHandler, HAPWriteCallback writeCallback) {
+    callbackToServiceMaps[callbackToServiceMapsCount] = {
+        .WriteCallback = writeCallback,
+        .CharactersticHandler = characteristicHandler,
+        .ServiceHandler = Handler        
+    };
+    callbackToServiceMapsCount++;
 }

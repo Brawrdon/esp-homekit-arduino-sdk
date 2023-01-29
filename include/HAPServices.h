@@ -37,8 +37,10 @@ class HAPLightSensor: public HAPService {
         HAPLightSensor(String serviceName, float initialLightLevel);
 };
 
-class HAPHumiditySensor: public HAPService {
+class HAPCustomService: public HAPService {
     public:
-        HAPHumiditySensor(String serviceName, float initialHumidity);
+        HAPCustomService(String serviceName, String uuid);
+        HAPCharacteristicHandler AddFloatCharacteristic(String uuid, float initialValue, bool writtable);
+        void AddWriteCallbackForCharacteristic(HAPCharacteristicHandler characteristicHandler, HAPWriteCallback writeCallback);
 };
 #endif
