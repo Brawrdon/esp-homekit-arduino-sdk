@@ -1,8 +1,8 @@
 #ifndef ESP32HomeKit_h
 #define ESP32HomeKit_h
 
-#include "hap.h"
-#include "hap_apple_chars.h"
+#include <../src/esp-homekit-sdk/hap.h>
+#include <../src/esp-homekit-sdk/hap_apple_chars.h>
 
 #include <HAPServices.h>
 

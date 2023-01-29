@@ -1,7 +1,7 @@
 #ifndef HAPAccessories_h
 #define HAPAccessories_h
 
-#include "hap.h"
+#include <../src/esp-homekit-sdk/hap.h>
 #include <Arduino.h>
 #include <HAPServices.h>
 

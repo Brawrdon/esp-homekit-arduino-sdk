@@ -2,8 +2,8 @@
 #include <HAPServices.h>
 #include <HAPHelpers.h>
 
-#include <hap_apple_chars.h>
-#include <esp_hap_serv.h>
+#include <../src/esp-homekit-sdk/hap_apple_chars.h>
+#include <../src/esp-homekit-sdk/esp_hap_serv.h>
 
 // ~ 15 charactersitics send write data from the Home app; rounded to 20 to be safe. 
 // Arbitrarily assuming each characterstic can be used by 4 services leave us with 80 potential callbacks.

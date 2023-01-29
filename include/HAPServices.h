@@ -1,7 +1,7 @@
 #ifndef HAPServices_h
 #define HAPServices_h
 
-#include "hap_apple_servs.h"
+#include <../src/esp-homekit-sdk/hap_apple_servs.h>
 
 typedef hap_serv_t* HAPServiceHandle;
 typedef hap_char_t* HAPCharacteristicHandler;
