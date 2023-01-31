@@ -23,7 +23,12 @@ class HAPService {
 
 class HAPTemperatureSensor: public HAPService {
     public:
-        HAPTemperatureSensor(String serviceName, double initialTemperature);
+        HAPTemperatureSensor(String serviceName, float initialTemperature);
+};
+
+class HAPHumiditySensor: public HAPService {
+    public:
+        HAPHumiditySensor(String serviceName, float initialHumidity);
 };
 
 class HAPLightbulb: public HAPService {

@@ -43,11 +43,19 @@ static int OnCharacteristicWrite(hap_write_data_t write_data[], int count,void *
     return ret;
 }
 
-HAPTemperatureSensor::HAPTemperatureSensor(String serviceName, double initialTemperature): HAPService(serviceName){
+// HAPTemperatureSensor
+HAPTemperatureSensor::HAPTemperatureSensor(String serviceName, float initialTemperature): HAPService(serviceName){
     Handler = hap_serv_temperature_sensor_create(initialTemperature);
     hap_serv_add_char(Handler, hap_char_name_create(ConvertStringToCharArray(Name)));
 }
 
+// HAPHumiditySensor
+HAPHumiditySensor::HAPHumiditySensor(String serviceName, float initialHumidity): HAPService(serviceName){
+    Handler = hap_serv_humidity_sensor_create(initialHumidity);
+    hap_serv_add_char(Handler, hap_char_name_create(ConvertStringToCharArray(Name)));
+}
+
+// HAPLightbulb
 HAPLightbulb::HAPLightbulb(String serviceName, bool initialState, HAPWriteCallback onOffStateWriteCallback): HAPService(serviceName){
     Handler = hap_serv_lightbulb_create(initialState);
     hap_serv_add_char(Handler, hap_char_name_create(ConvertStringToCharArray(Name)));
